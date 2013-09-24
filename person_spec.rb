@@ -1,5 +1,6 @@
 require './black_jack'
 require './person'
+require './deck'
 
 
 describe Person do
@@ -21,30 +22,36 @@ end
   end
 
   it "can get a total point value of its cards using .total" do
-    @person.cards = [[1,2],[9,3]]
-    #  @person.cards = [Card[:value => 1, :suit => :diamonds, :card => "ace"],
-    #  Card[:value => 9, :suit => :hearts, :card => 9]
+    @person.cards = [Deck::Card[:value => 11, :suit => :diamonds, :card => "ace"],
+    Deck::Card[:value => 9, :suit => :hearts, :card => 9]]
     expect(@person.total).to eq(20)
   end
 
   it "knows if it has blackjack using .blackjack?" do 
-    @person.cards=[[10,1],[1,4]]
+    @person.cards = [Deck::Card[:value => 11, :suit => :diamonds, :card => "ace"],
+    Deck::Card[:value => 10, :suit => :hearts, :card => "jack"]]
     expect(@person.blackjack?).to eq(true)
   end
 
   it "knows if it has busted using .busted?" do
-    @person.cards = [[7,1],[8,2],[8,3]]
+    @person.cards = [Deck::Card[:value => 8, :suit => :diamonds, :card => 8],
+    Deck::Card[:value => 8, :suit => :hearts, :card => 8],
+    Deck::Card[:value => 9, :suit => :hearts, :card => 9]]
     expect(@person.busted?).to be_true
   end
 
   it "knows how to use a soft ace" do 
-    @person.cards = [[1,2], [8,3], [8,2]]
+    @person.cards = [Deck::Card[:value => 11, :suit => :diamonds, :card => "ace"],
+      Deck::Card[:value => 8, :suit => :hearts, :card => 8],
+      Deck::Card[:value => 9, :suit => :hearts, :card => 9]]
     expect(@person.busted?).to be_false
   end
 
   it "prints out its name and card total using .to_s" do
-    @person.cards = [[1,2], [8,3], [8,2]]
-    expect(@person.to_s).to eq("David: 17")
+    @person.cards = [Deck::Card[:value => 11, :suit => :diamonds, :card => "ace"],
+      Deck::Card[:value => 8, :suit => :hearts, :card => 8],
+      Deck::Card[:value => 9, :suit => :hearts, :card => 9]]
+    expect(@person.to_s).to eq("David: 18")
   end
 end
 

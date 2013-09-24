@@ -1,4 +1,5 @@
 require './strategy'
+require './deck'
 
 class Person
 	attr_accessor :name, :strategy, :cards
@@ -9,24 +10,20 @@ class Person
 	def total
 		var=0
 		@cards.each do |car|
+			car[:value] = 11 if car[:card] == "ace"
 			var+=card_val(car)
 		end
-		ace_count = @cards.select { |c| c[0] == 1}.length
-		while (var > 21 && ace_count > 0) do
+		aces = @cards.select { |c| c[:value] == 11}
+		while (var > 21 && aces.length > 0) do
 			var -= 10
-			ace_count -= 1
+			aces.last[:value] = 1
+			aces.pop
 		end
 		return var
 	end
 
 	def card_val(a)
-		if a[0] ==1
-			return 11
-		elsif a[0] <= 10
-			return a[0]
-		else
-			return 10
-		end
+		a[:value]
 	end
 	def blackjack?
 		cards.length == 2 and total == 21
@@ -36,6 +33,9 @@ class Person
 	end
 	def to_s
 		return "#{name}: #{total}"
+	end
+	def action
+		@strategy.action
 	end
 
 end
